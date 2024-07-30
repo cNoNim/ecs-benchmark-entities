@@ -12,14 +12,7 @@
     "type": "git",
     "url": "https://github.com/cNoNim/ecs-benchmark-entities.git"
   },
-  "dependencies": {
-    "ecs.benchmark.core": "1.0.0",
-    "com.unity.burst": "1.8.17",
-    "com.unity.collections": "2.5.0-pre.2",
-    "com.unity.entities": "1.2.3",
-    "com.unity.modules.physics": "1.0.0",
-    "com.unity.modules.uielements": "1.0.0"
-  },
+  "dependencies": {},
   "keywords": [
     "ecs",
     "benchmark",
