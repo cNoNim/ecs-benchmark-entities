@@ -266,8 +266,7 @@ public partial class ContextEntitiesSystemAPI : ContextBase
 											  .ValueRW.V;
 				ref readonly var damage = ref SystemAPI.GetComponentRO<CompDamage>(target)
 													   .ValueRO.V;
-				var totalDamage = attackDamage - damage.Defence;
-				health.Hp -= totalDamage;
+				ApplyDamageSequential(ref health, in damage, in attack);
 			}
 
 			ecb.Playback(state.EntityManager);

@@ -412,25 +412,23 @@ public partial class ContextEntitiesEnableable : ContextBase
 				{
 					var entity = entities[n];
 					var attack = attacks[n];
-					if (attack.Ticks-- <= 0)
+					if (attack.Ticks-- > 0)
 					{
-						var target       = attack.Target;
-						var attackDamage = attack.Damage;
-
-						ecb.DestroyEntity(entity);
-
-						if (!_entityLookup.Exists(target)
-						 || _deadLookup.IsComponentEnabled(target))
-							continue;
-
-						var health      = _healthLookup[target].V;
-						var damage      = _damageLookup[target].V;
-						var totalDamage = attackDamage - damage.Defence;
-						health.Hp             -= totalDamage;
-						_healthLookup[target] =  health;
+						attacks[n] = attack;
+						continue;
 					}
 
-					attacks[n] = attack;
+					var target = attack.Target;
+					ecb.DestroyEntity(entity);
+
+					if (!_entityLookup.Exists(target)
+					 || _deadLookup.IsComponentEnabled(target))
+						continue;
+
+					ref var health = ref _healthLookup.GetRefRW(target)
+													  .ValueRW.V;
+					var damage = _damageLookup[target].V;
+					ApplyDamageSequential(ref health, in damage, in attack);
 				}
 			}
 

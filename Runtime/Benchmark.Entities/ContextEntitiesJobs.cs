@@ -310,9 +310,7 @@ public partial class ContextEntitiesJobs : ContextBase
 				if (attack.Ticks-- > 0)
 					return;
 
-				var target       = attack.Target;
-				var attackDamage = attack.Damage;
-
+				var target = attack.Target;
 				Ecb.DestroyEntity(entity);
 
 				if (!EntityLookup.Exists(target)
@@ -323,8 +321,7 @@ public partial class ContextEntitiesJobs : ContextBase
 												 .ValueRW.V;
 				ref readonly var damage = ref DamageLookup.GetRefRO(target)
 														  .ValueRO.V;
-				var totalDamage = attackDamage - damage.Defence;
-				health.Hp -= totalDamage;
+				ApplyDamageParallel(ref health, in damage, in attack);
 			}
 		}
 

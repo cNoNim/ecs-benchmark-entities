@@ -396,20 +396,17 @@ public partial class ContextEntities : ContextBase
 						continue;
 					}
 
-					var target       = attack.Target;
-					var attackDamage = attack.Damage;
-
+					var target = attack.Target;
 					ecb.DestroyEntity(entity);
 
 					if (!_entityLookup.Exists(target)
 					 || _deadLookup.HasComponent(target))
 						continue;
 
-					var health      = _healthLookup[target].V;
-					var damage      = _damageLookup[target].V;
-					var totalDamage = attackDamage - damage.Defence;
-					health.Hp             -= totalDamage;
-					_healthLookup[target] =  health;
+					var health = _healthLookup[target].V;
+					var damage = _damageLookup[target].V;
+					ApplyDamageSequential(ref health, damage, attack);
+					_healthLookup[target] = health;
 				}
 			}
 
